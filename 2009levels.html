@@ -1,0 +1,118 @@
+<canvas id="canvas" width="660" height="251">your canvas loads here</canvas>
+
+<p>If the background doesn't load just submit again until it does.</p>
+<br>
+<p>If you don't want a background so you can edit in photoshop just delete the url.</p>
+<br>
+
+<input id="username" placeholder="username"></input>
+<button id="submit">Submit</button>
+
+<br>
+<br>
+Background
+<input id="backgroundurl" placeholder="backgroundurl" value="https://i.imgur.com/ebzxEuF.jpeg"></input>
+<br>
+Font
+<input id="fonttext" placeholder="fonttext" value="25px Helvetica"></input>
+<br>
+Font color
+<input id="fontcolor" placeholder="fontcolor" value="#ffff"></input>
+<br>
+Dropshadow Text?
+<input type="checkbox" id="shadowCheckbox" checked></input>
+
+<script>
+    function lookupAndGen(){
+        let username = document.getElementById("username").value
+        fetch('http://api.2009scape.org:3000/hiscores/playerSkills/2/'+username)
+            .then((response) => response.json())
+            .then((data) => {
+                var canvas=document.getElementById("canvas");
+    var context=canvas.getContext('2d');
+    var bg=new Image();
+    var fg=new Image();
+    fg.crossOrigin="anonymous"
+    bg.crossOrigin="anonymous"
+
+    fg.onload=function(){
+    context.drawImage(bg,0,0,canvas.width,canvas.height);
+    context.drawImage(fg,0,0,canvas.width,canvas.height);
+    context.fillStyle = document.getElementById("fontcolor").value
+    if(document.getElementById("shadowCheckbox").checked){
+        context.shadowColor="black";
+        context.shadowBlur=7;
+    }
+
+
+    console.log(data.skills[0].static)
+    // Write Text
+    context.font = document.getElementById("fonttext").value;
+
+    // Skill indexes in JSON https://gist.github.com/downthecrop/e9e5469811b00ed10ef624e484be56db
+
+
+    // Col 1
+    context.fillText(calcTotal(data), 60, 40);
+    context.fillText(data.skills[3].static, 60, 80);
+    context.fillText(data.skills[0].static, 60, 120);
+    context.fillText(data.skills[2].static, 60, 160);
+    context.fillText(data.skills[1].static, 60, 200);
+
+    // Col 2
+    context.fillText(data.skills[4].static, 170, 40);
+    context.fillText(data.skills[5].static, 170, 80);
+    context.fillText(data.skills[6].static, 170, 120);
+    context.fillText(data.skills[20].static, 170, 160);
+    context.fillText(data.skills[22].static, 170, 200);
+
+    // Col 3
+    context.fillText(data.skills[16].static, 270, 40);
+    context.fillText(data.skills[15].static, 270, 80);
+    context.fillText(data.skills[17].static, 270, 120);
+    context.fillText(data.skills[12].static, 270, 160);
+    context.fillText(data.skills[9].static, 270, 200);
+
+    // Col 4
+    context.fillText(data.skills[18].static, 370, 40);
+    context.fillText(data.skills[21].static, 370, 80);
+    context.fillText(data.skills[14].static, 370, 120);
+    context.fillText(data.skills[13].static, 370, 160);
+    context.fillText(data.skills[10].static, 370, 200);
+
+    // Col 5
+    context.fillText(data.skills[7].static, 470, 40);
+    context.fillText(data.skills[11].static, 470, 80);
+    context.fillText(data.skills[8].static, 470, 120);
+    context.fillText(data.skills[19].static, 470, 160);
+    context.fillText(data.skills[23].static, 470, 200);
+
+    // Username & Footer
+    context.fillText(username, 20, 240);
+};
+fg.src="https://i.imgur.com/E6a94ft.png";
+if(document.getElementById("backgroundurl").value != "")
+    bg.src=document.getElementById("backgroundurl").value
+else
+    bg.src="https://i.imgur.com/wJ621Mr.png"
+
+            });
+    }
+
+    function debugBase64(base64URL){
+        document.write('<iframe src="' + base64URL  + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
+    }
+    function calcTotal(data){
+        console.log(data)
+        let total = 0
+        for(let i = 0; i < data.skills.length; i++){
+            total += parseInt(data.skills[i].static)
+        }
+        return total
+    }
+
+document.getElementById("submit").addEventListener("click",function(){
+    lookupAndGen()
+})
+
+</script>
