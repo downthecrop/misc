@@ -25,7 +25,7 @@ Dropshadow Text?
 <script>
     function lookupAndGen(){
         let username = document.getElementById("username").value
-        fetch('http://api.2009scape.org:3000/hiscores/playerSkills/2/'+username)
+        fetch('https://api.2009scape.org:3000/hiscores/playerSkills/2/'+username)
             .then((response) => response.json())
             .then((data) => {
                 var canvas=document.getElementById("canvas");
