@@ -1,3 +1,4 @@
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 <canvas id="canvas" width="660" height="251">your canvas loads here</canvas>
 
 <p>If the background doesn't load just submit again until it does.</p>
@@ -25,7 +26,7 @@ Dropshadow Text?
 <script>
     function lookupAndGen(){
         let username = document.getElementById("username").value
-        fetch('https://api.2009scape.org:3000/hiscores/playerSkills/2/'+username)
+        fetch('http://api.2009scape.org:3000/hiscores/playerSkills/2/'+username)
             .then((response) => response.json())
             .then((data) => {
                 var canvas=document.getElementById("canvas");
