@@ -23,9 +23,12 @@ Dropshadow Text?
 <input type="checkbox" id="shadowCheckbox" checked></input>
 
 <script>
+    function formatName(name) {
+        return name.toLowerCase().replace(/\s+/g, '_');
+    }
     function lookupAndGen(){
         let username = document.getElementById("username").value
-        fetch('http://api.2009scape.org:3000/hiscores/playerSkills/2/'+username)
+        fetch('http://api.2009scape.org:3000/hiscores/playerSkills/2/'+formatName(username))
             .then((response) => response.json())
             .then((data) => {
                 var canvas=document.getElementById("canvas");
